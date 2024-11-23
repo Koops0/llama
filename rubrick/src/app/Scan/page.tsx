@@ -49,7 +49,9 @@ export default function Scan() {
       const data = await res.json();
 
       if (data.success) {
-        setResponse(JSON.stringify(data.data, null, 2));
+        // Extract and set only the message.content field
+        const content = data.data.message.content;
+        setResponse(content);
       } else {
         setResponse(`Error: ${data.error}`);
       }
@@ -59,36 +61,48 @@ export default function Scan() {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Upload and Analyze Image</h1>
+    <div className="w-screen h-screen relative flex flex-col items-center overflow-hidden">
+      <div className="w-full h-full absolute bg-[#3654bf]" />
+      <div className="absolute inset-x-0 top-1/4 transform -translate-y-1/2 flex flex-col items-center space-y-4">
+        <div className="text-center text-white text-6xl font-bold font-['SF Pixelate'] leading-tight">
+          Scan and Analyze!
+        </div>
+        <div className="text-center text-white text-xl md:text-3xl font-bold font-['SF Pixelate'] leading-tight px-4">
+          Upload an image and let us analyze it for you.
+        </div>
+      </div>
 
-      <form onSubmit={handleUpload} className="mb-4">
+      <form
+        onSubmit={handleUpload}
+        className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex flex-col items-center space-y-4"
+      >
         <input
           type="file"
           accept="image/*"
           onChange={(e) => setSelectedImage(e.target.files?.[0] || null)}
           required
-          className="block mb-2"
+          className="bg-white text-black rounded-md px-4 py-2"
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded"
+          className="w-11/12 md:w-1/4 h-16 bg-[#c45555] border-4 border-black text-black text-2xl md:text-4xl font-bold font-['SF Pixelate'] leading-tight flex justify-center items-center"
         >
-          Upload
+          Upload Image
         </button>
+        <p className="text-white">{uploadStatus}</p>
       </form>
-
-      <p>{uploadStatus}</p>
 
       <button
         onClick={handleProcess}
         disabled={!processStatus}
-        className="bg-green-500 text-white py-2 px-4 rounded mt-4"
+        className="absolute inset-x-0 bottom-32 w-11/12 md:w-1/4 h-16 bg-[#83dc87] border-4 border-black text-black text-2xl md:text-4xl font-bold font-['SF Pixelate'] leading-tight flex justify-center items-center disabled:opacity-50"
       >
         Process Image
       </button>
 
-      <pre className="mt-4 bg-gray-100 p-2 rounded">{response}</pre>
+      <div className="absolute inset-x-0 bottom-10 w-11/12 md:w-3/4 bg-white border-4 border-black p-4 rounded-md overflow-y-auto max-h-40">
+        <pre className="text-black font-mono">{response || "Response will appear here..."}</pre>
+      </div>
     </div>
   );
 }
