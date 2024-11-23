@@ -53,7 +53,7 @@ export default function Intro() {
       <div className="w-11/12 md:w-1/4 h-16 relative">
         <div className="w-full h-full bg-[#c45555] border-4 border-black" />
         <div className="absolute inset-0 flex justify-center items-center text-black text-2xl md:text-4xl font-bold font-['SF Pixelate'] leading-tight">
-          Scan Objects
+          <Link href="/Scan" className="px-4 py-2 bg-blue-500 text-white rounded">Scan Objects</Link>     
         </div>
       </div>
 
