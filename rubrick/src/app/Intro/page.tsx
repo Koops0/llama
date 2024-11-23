@@ -34,17 +34,20 @@ export default function Intro() {
       </div>
     </div>
   
-    <div className="absolute inset-x-0 top-1/4 text-center text-white text-4xl md:text-6xl font-bold font-['SF Pixelate'] leading-tight">
+    <div className="absolute inset-x-0 top-1/4 transform -translate-y-1/2 flex justify-center w-full">
+      <img
+        className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto"
+        src="/image.png"
+        alt="Llama"
+      />
+    </div>
+    <div className="absolute inset-x-0 top-[40%] text-center text-white text-6xl md:text-6xl font-bold font-['SF Pixelate'] leading-tight">
       BlueBrick!
     </div>
-    <div className="absolute inset-x-0 top-1/3 text-center text-white text-xl md:text-3xl font-bold font-['SF Pixelate'] leading-tight px-4">
+    <div className="absolute inset-x-0 top-[50%] text-center text-white text-xl md:text-3xl font-bold font-['SF Pixelate'] leading-tight px-4">
       Fuel your curiosity by deconstructing everyday objects!
     </div>
-    <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex justify-center">
-      <img className="w-3/4 max-w-md" src="/image.png" alt="Llama" />
-    </div>
   
-    {/* Buttons */}
     <div className="flex flex-col md:flex-row md:space-x-4 absolute inset-x-0 bottom-10 items-center justify-center space-y-4 md:space-y-0">
 
       <div className="w-11/12 md:w-1/4 h-16 relative">
