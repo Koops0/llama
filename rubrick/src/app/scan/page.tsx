@@ -1,7 +1,8 @@
 "use client";
+import React, { useRef, useState } from 'react';
+import { Camera } from 'react-camera-pro';
 import Image from "next/image";
 import Link from 'next/link';
-import { useRouter, redirect } from 'next/navigation';
 import { motion } from "framer-motion";
 
 const containerVariants = {
@@ -22,7 +23,21 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export default function Intro() {
+export default function Scan() {
+    const camera = useRef(null);
+    const [image, setImage] = React.useState(null);
+    const errorMessages = {
+      noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
+      permissionDenied: 'Permission denied. Please refresh and give camera permission.',
+      switchCamera: 'It is not possible to switch camera to different one because there is only one video device accessible.',
+      canvas: 'Canvas is not supported.',
+    };
+    const handleTakePhoto = () => {
+      if (camera.current) {
+        setImage(camera.current.takePhoto());
+      }
+    };
+
     return (
       <div className="w-screen h-screen relative flex overflow-hidden">
         <div className="w-full h-full absolute bg-[#3654bf]" />
@@ -53,19 +68,47 @@ export default function Intro() {
           </div>
         </div>
 
-        <div className="absolute inset-x-0 top-1/4 transform -translate-y-1/2 flex justify-center w-full">
-          <img
-            className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto"
-            src="/image.png"
+        {
+          //Make Llama image icon on the top left corner
+          //image.png
+        }
+        <div className="absolute">
+          <Image
+            src="/image_icon.png"
             alt="Llama"
+            width={80}
+            height={80}
           />
         </div>
-        <div className="absolute inset-x-0 top-[40%] text-center text-white text-6xl md:text-6xl font-bold font-['SF Pixelate'] leading-tight">
-          BlueBrick!
-        </div>
-        <div className="absolute inset-x-0 top-[50%] text-center text-white text-xl md:text-3xl font-bold font-['SF Pixelate'] leading-tight px-4">
-          Fuel your curiosity by deconstructing everyday objects!
-        </div>
+
+        {// X button to go back to intro page
+        }
+        <motion.div 
+          className="absolute top-0 right-0 m-4"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          <Link href="/" passHref>
+            <motion.button
+              className="w-12 h-12 relative cursor-pointer bg-transparent border-0 p-0"
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="w-full h-full bg-[#c45555] border-4 border-black" />
+              <span className="absolute inset-0 flex justify-center items-center text-black text-3xl md:text-5xl font-bold font-['SF Pixelate'] leading-tight">
+                X
+              </span>
+            </motion.button>
+          </Link>
+        </motion.div>
+
+        {
+          // Camera UI
+        }
+
+        
 
         <motion.div 
           className="flex flex-col md:flex-row gap-6 absolute inset-x-0 bottom-10 items-center justify-center px-4"
@@ -73,45 +116,20 @@ export default function Intro() {
           animate="visible"
           variants={containerVariants}
         >
-       <Link href="/scan" passHref className="w-full md:w-1/3 max-w-[500px]">
-        <motion.button
-          className="w-full h-24 relative cursor-pointer bg-transparent border-0 p-0"
-          variants={itemVariants}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+       <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-full">
+        <Camera ref={camera} aspectRatio={16 / 9} errorMessages={errorMessages} />
+        <button
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={handleTakePhoto}
         >
-          <div className="w-full h-full bg-[#c45555] border-4 border-black" />
-          <span className="absolute inset-0 flex justify-center items-center text-black text-3xl md:text-5xl font-bold font-['SF Pixelate'] leading-tight">
-            Scan Objects
-          </span>
-        </motion.button>
-      </Link>
-        <Link href="/db" className="w-full md:w-1/3 max-w-[500px]">
-          <motion.button
-            className="w-full h-24 relative cursor-pointer bg-transparent border-0 p-0"
-            variants={itemVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="w-full h-full bg-[#57c455] border-4 border-black" />
-            <span className="absolute inset-0 flex justify-center items-center text-black text-3xl md:text-5xl font-bold font-['SF Pixelate'] leading-tight">
-              Past Projects
-            </span>
-          </motion.button>
-        </Link>
-        <Link href="/logs" className="w-full md:w-1/3 max-w-[500px]">
-          <motion.button
-            className="w-full h-24 relative cursor-pointer bg-transparent border-0 p-0"
-            variants={itemVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="w-full h-full bg-white border-4 border-black" />
-            <span className="absolute inset-0 flex justify-center items-center text-black text-3xl md:text-5xl font-bold font-['SF Pixelate'] leading-tight">
-              View Logs
-            </span>
-          </motion.button>
-        </Link>
+          Take Photo
+        </button>
+        {image && (
+          <div className="mt-4">
+            <img src={image} alt="Captured" />
+          </div>
+        )}
+      </div>
      </motion.div>
       </div>
     );

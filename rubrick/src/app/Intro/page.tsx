@@ -68,7 +68,7 @@ export default function Intro() {
         </div>
 
         <motion.div 
-          className="flex flex-col md:flex-row gap-6 absolute inset-x-0 bottom-10 items-center justify-center px-4"
+          className="flex flex-col md:flex-row gap-2 absolute inset-x-0 bottom-10 items-center justify-center px-4"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
