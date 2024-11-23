@@ -60,7 +60,7 @@ export default function Intro() {
             alt="Llama"
           />
         </div>
-        <div className="absolute inset-x-0 top-[40%] text-center text-white text-6xl md:text-6xl font-bold leading-tight">
+        <div className="absolute inset-x-0 top-[40%] text-center text-white text-6xl md:text-6xl font-bold font-['SF Pixelate'] leading-tight">
           BlueBrick!
         </div>
         <div className="absolute inset-x-0 top-[50%] text-center text-white text-xl md:text-3xl font-bold font-['SF Pixelate'] leading-tight px-4">
