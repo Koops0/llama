@@ -32,6 +32,7 @@ export default function Scan() {
       switchCamera: 'It is not possible to switch camera to different one because there is only one video device accessible.',
       canvas: 'Canvas is not supported.',
     };
+    
     const handleTakePhoto = () => {
       if (camera.current) {
         setImage(camera.current.takePhoto());
@@ -107,30 +108,18 @@ export default function Scan() {
         {
           // Camera UI
         }
-
-        
-
-        <motion.div 
-          className="flex flex-col md:flex-row gap-6 absolute inset-x-0 bottom-10 items-center justify-center px-4"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-        >
-       <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-full">
-        <Camera ref={camera} aspectRatio={16 / 9} errorMessages={errorMessages} />
-        <button
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={handleTakePhoto}
-        >
-          Take Photo
-        </button>
-        {image && (
-          <div className="mt-4">
-            <img src={image} alt="Captured" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="relative w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] md:w-[540px] md:h-[540px] lg:w-[720px] lg:h-[720px]">
+            <Camera ref={camera} aspectRatio={1 / 1} errorMessages={errorMessages} />
           </div>
-        )}
-      </div>
-     </motion.div>
+          <button
+            className="mt-4 px-2 py-2 bg-blue-500 text-white sm:text-xl text-3xl rounded"
+            onClick={handleTakePhoto}
+          >
+            Take Photo
+          </button>
+          
+        </div>
       </div>
     );
 }   
