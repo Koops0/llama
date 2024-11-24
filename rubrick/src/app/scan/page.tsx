@@ -32,11 +32,13 @@ export default function Scan() {
       switchCamera: 'It is not possible to switch camera to different one because there is only one video device accessible.',
       canvas: 'Canvas is not supported.',
     };
-    
     const handleTakePhoto = () => {
       if (camera.current) {
         setImage(camera.current.takePhoto());
       }
+      const videoConstraints = {
+        facingMode: { exact: 'environment' }, // Use the rear camera
+      };
     };
 
     return (
@@ -84,6 +86,24 @@ export default function Scan() {
 
         {// X button to go back to intro page
         }
+      
+
+        {
+          // Camera UI
+          //facingMode: { exact: 'environment' }, // Use the rear camera
+          //facingMode: { exact: 'user' }, // Use the front camera
+        }
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="relative w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] md:w-[540px] md:h-[540px] lg:w-[720px] lg:h-[720px]">
+            <Camera ref={camera} aspectRatio={1 / 1} errorMessages={errorMessages} facingMode="environment"/>
+          </div>
+          <button
+            className="mt-4 px-2 py-2 bg-blue-500 text-white sm:text-xl text-3xl rounded"
+            onClick={handleTakePhoto}>
+            Take Photo
+          </button>
+        </div>
+
         <motion.div 
           className="absolute top-0 right-0 m-4"
           initial="hidden"
@@ -96,6 +116,10 @@ export default function Scan() {
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                console.log("Clicked X button");
+                
+              }}
             >
               <div className="w-full h-full bg-[#c45555] border-4 border-black" />
               <span className="absolute inset-0 flex justify-center items-center text-black text-3xl md:text-5xl font-bold font-['SF Pixelate'] leading-tight">
@@ -104,22 +128,6 @@ export default function Scan() {
             </motion.button>
           </Link>
         </motion.div>
-
-        {
-          // Camera UI
-        }
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="relative w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] md:w-[540px] md:h-[540px] lg:w-[720px] lg:h-[720px]">
-            <Camera ref={camera} aspectRatio={1 / 1} errorMessages={errorMessages} />
-          </div>
-          <button
-            className="mt-4 px-2 py-2 bg-blue-500 text-white sm:text-xl text-3xl rounded"
-            onClick={handleTakePhoto}
-          >
-            Take Photo
-          </button>
-          
-        </div>
       </div>
     );
 }   
