@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
-import ollama from "ollama";
+import {Ollama} from "ollama";
 
-const USE_DUMMY_DATA = true; // Toggle this to switch between real and dummy data
+const USE_DUMMY_DATA = false; // Toggle this to switch between real and dummy data
+const ollama = new Ollama({ host: 'http://195.242.13.91:11434'});
 
 export async function POST(request: Request) {
   if (USE_DUMMY_DATA) {

@@ -74,7 +74,7 @@ export default function Scan() {
       const data = await res.json();
 
       if (data.success) {
-        setUploadStatus("Image uploaded successfully!");
+        setUploadStatus(<span className="text-black">Image uploaded successfully!</span>);
         setProcessStatus(data.filePath); // Set the file path for processing
         console.log("File path:", data.filePath);
       } else {
@@ -144,7 +144,7 @@ export default function Scan() {
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
         {showCamera ? (
           <div className="relative w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] md:w-[540px] md:h-[540px] lg:w-[720px] lg:h-[720px]">
-            <Camera ref={camera} aspectRatio={1 / 1} errorMessages={errorMessages} facingMode="environment" />
+            <Camera ref={camera} aspectRatio={1 / 1} errorMessages={errorMessages} facingMode="user" />
           </div>
         ) : (
           <div className="relative w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] md:w-[540px] md:h-[540px] lg:w-[720px] lg:h-[720px]">

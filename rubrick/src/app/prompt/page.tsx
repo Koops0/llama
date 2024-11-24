@@ -1,108 +1,95 @@
 "use client";
+import React from 'react';
+import Image from "next/image";
+import Link from 'next/link';
+import { motion } from "framer-motion";
 
-import React, { useState } from "react";
+const containerVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.2,
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
 
-export default function Prompt() {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [uploadStatus, setUploadStatus] = useState<string>("");
-  const [processStatus, setProcessStatus] = useState<string>("");
-  const [response, setResponse] = useState<string>("");
+const itemVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+};
 
-  const handleUpload = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!selectedImage) return;
-
-    const formData = new FormData();
-    formData.append("image", selectedImage);
-
-    setUploadStatus("Uploading...");
-
-    try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-
-      if (data.success) {
-        setUploadStatus("Image uploaded successfully!");
-        setProcessStatus(data.filePath); // Set the file path for processing
-      } else {
-        setUploadStatus(`Error: ${data.error}`);
-      }
-    } catch (error: any) {
-      setUploadStatus(`Error: ${error.message}`);
-    }
-  };
-
-  const handleProcess = async () => {
-    if (!processStatus) return;
-
-    setResponse("Processing image...");
-
-    try {
-      const res = await fetch("/api/process", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filePath: processStatus }),
-      });
-      const data = await res.json();
-
-      if (data.success) {
-        // Extract and set only the message.content field
-        const content = data.data.message.content;
-        setResponse(content);
-      } else {
-        setResponse(`Error: ${data.error}`);
-      }
-    } catch (error: any) {
-      setResponse(`Error: ${error.message}`);
-    }
-  };
-
-  return (
-    <div className="w-screen h-screen relative flex flex-col items-center overflow-hidden">
-      <div className="w-full h-full absolute bg-[#3654bf]" />
-      <div className="absolute inset-x-0 top-1/4 transform -translate-y-1/2 flex flex-col items-center space-y-4">
-        <div className="text-center text-white text-6xl font-bold font-['SF Pixelate'] leading-tight">
-          Scan and Analyze!
+export default function Db() {
+    return (
+      <div className="w-screen h-screen relative flex overflow-hidden">
+        <div className="w-full h-full absolute bg-[#3654bf]" />
+        <div className="w-full h-full absolute">
+          <div className="w-full h-full absolute">
+            <div className="w-full h-0 absolute top-0 bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[10%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[20%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[30%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[40%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[50%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[60%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[70%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[80%] bg-gray-500 border-t-4 border-white/20"></div>
+            <div className="w-full h-0 absolute top-[90%] bg-gray-500 border-t-4 border-white/20"></div>
+          </div>
+          <div className="w-full h-full absolute">
+            <div className="w-0 h-full absolute left-0 bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[10%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[20%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[30%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[40%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[50%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[60%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[70%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[80%] bg-gray-500 border-l-4 border-white/20"></div>
+            <div className="w-0 h-full absolute left-[90%] bg-gray-500 border-l-4 border-white/20"></div>
+          </div>
         </div>
-        <div className="text-center text-white text-xl md:text-3xl font-bold font-['SF Pixelate'] leading-tight px-4">
-          Upload an image and let us analyze it for you.
-        </div>
-      </div>
 
-      <form
-        onSubmit={handleUpload}
-        className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex flex-col items-center space-y-4"
-      >
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setSelectedImage(e.target.files?.[0] || null)}
-          required
-          className="bg-white text-black rounded-md px-4 py-2"
-        />
-        <button
-          type="submit"
-          className="w-11/12 md:w-1/4 h-16 bg-[#c45555] border-4 border-black text-black text-2xl md:text-4xl font-bold font-['SF Pixelate'] leading-tight flex justify-center items-center"
+        {
+          //Make Llama image icon on the top left corner
+          //image.png
+        }
+        <div className="absolute">
+          <Image
+            src="/image_icon.png"
+            alt="Llama"
+            width={80}
+            height={80}
+          />
+        </div>
+
+        <motion.div 
+          className="absolute top-0 right-0 m-4"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
         >
-          Upload Image
-        </button>
-        <p className="text-white">{uploadStatus}</p>
-      </form>
-
-      <button
-        onClick={handleProcess}
-        disabled={!processStatus}
-        className="absolute inset-x-0 bottom-32 w-11/12 md:w-1/4 h-16 bg-[#83dc87] border-4 border-black text-black text-2xl md:text-4xl font-bold font-['SF Pixelate'] leading-tight flex justify-center items-center disabled:opacity-50"
-      >
-        Process Image
-      </button>
-
-      <div className="absolute inset-x-0 bottom-10 w-11/12 md:w-3/4 bg-white border-4 border-black p-4 rounded-md overflow-y-auto max-h-40">
-        <pre className="text-black font-mono">{response || "Response will appear here..."}</pre>
+          <Link href="/" passHref>
+            <motion.button
+              className="w-12 h-12 relative cursor-pointer bg-transparent border-0 p-0"
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                console.log("Clicked X button");
+                
+              }}
+            >
+              <div className="w-full h-full bg-[#c45555] border-4 border-black" />
+              <span className="absolute inset-0 flex justify-center items-center text-black text-3xl md:text-5xl font-bold font-['SF Pixelate'] leading-tight">
+                X
+              </span>
+            </motion.button>
+          </Link>
+        </motion.div>
       </div>
-    </div>
-  );
-}
+    );
+}   
