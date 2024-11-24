@@ -36,9 +36,6 @@ export default function Scan() {
       if (camera.current) {
         setImage(camera.current.takePhoto());
       }
-      const videoConstraints = {
-        facingMode: { exact: 'environment' }, // Use the rear camera
-      };
     };
 
     return (
@@ -83,11 +80,6 @@ export default function Scan() {
             height={80}
           />
         </div>
-
-        {// X button to go back to intro page
-        }
-      
-
         {
           // Camera UI
           //facingMode: { exact: 'environment' }, // Use the rear camera

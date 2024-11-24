@@ -1,7 +1,5 @@
 "use client";
-import Image from "next/image";
 import Link from 'next/link';
-import { useRouter, redirect } from 'next/navigation';
 import { motion } from "framer-motion";
 
 const containerVariants = {
